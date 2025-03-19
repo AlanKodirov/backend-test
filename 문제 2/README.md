@@ -22,3 +22,49 @@
 ---
 
 ### 💡 추가질문 - 성능을 개선하기 위한 아이디어를 제시해 주세요
+
+CREATE TABLE user (
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+email VARCHAR(255) NOT NULL UNIQUE,
+password VARCHAR(255) NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+deleted_at TIMESTAMP NULL
+);
+
+CREATE TABLE post (
+id INT AUTO_INCREMENT PRIMARY KEY,
+title VARCHAR(255) NOT NULL,
+content TEXT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+user_id INT,
+FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE SET NULL
+);
+
+CREATE TABLE tag (
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL UNIQUE,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE post_tag (
+post_id INT,
+tag_id INT,
+PRIMARY KEY (post_id, tag_id),
+FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE,
+FOREIGN KEY (tag_id) REFERENCES tag(id) ON DELETE CASCADE
+);
+
+## Optimizing for Performance
+
+## 1 Indexing
+
+## Create indexes on frequently queried fields such as email in the user table, created_at in the post and tag tables, and the name field in the tag table.
+
+## 2 Caching
+
+## Use caching mechanisms (like Redis) for frequently accessed data
+
+## 3 Query Optimization:
+
+## If the application grows, consider using a more specialized search engine like Elasticsearch for faster text-based searches.
